@@ -1,0 +1,16 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+
+  config.vm.network "private_network", ip: "192.168.56.10"
+  
+  # Provisioning with shell script to install Apache
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "Hola desde aprovisionamiento" -> /tmp/hello.txt
+    sudo apt-get update
+    sudo apt-get install -y nginx
+    sudo systemctl enable nginx && \
+    sudo systemctl start nginx
+  SHELL
+
+end
+# This Vagrantfile sets up an Ubuntu 18.04 VM with Apache installed.
